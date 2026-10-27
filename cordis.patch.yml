@@ -1,0 +1,19 @@
+# dsh-share bundle patch: mount the session-share plugin.
+#
+# Applied when this bundle appears in a profile's dsh.profile.bundles list.
+# The host half (package root) serves the authenticated /api/session.share.*
+# extraction routes plus the public /share/<token> page route; the browser
+# half (dsh.client) is discovered automatically through the package's
+# dsh.client declaration + exports["./client"].
+
+- insert:
+    - id: dsh-share
+      name: '@dsh-community/dsh-share'
+      config:
+        # Share snapshots live in <DSH_HOME>/shares; deleting the file revokes
+        # the link. The plugin creates the directory on activation.
+        root: !!js dshHomePath('shares')
+        # Public base URL for copied share links: an nginx endpoint on the VPS
+        # exposes only /share/<token> and proxies to this machine over the
+        # asusgraham-dsh-web frp tunnel (windgraham.art:13006 -> local 3080).
+        publicOrigin: 'https://windgraham.art'

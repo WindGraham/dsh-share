@@ -1,0 +1,35 @@
+{
+  "name": "@dsh-community/dsh-share",
+  "version": "0.2.0",
+  "description": "DSH WebUI 会话分享:ChatGPT/Claude 式分享(复制分享链接 / 复制 Markdown / 导出 Markdown / 导出长图),分享链接是免登录公开页 /share/<token>",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "files": [
+    "lib",
+    "locale",
+    "icon.svg",
+    "LICENSE",
+    "README.md",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT"
+}
