@@ -1,6 +1,6 @@
 {
   "name": "@dsh-community/dsh-share",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "DSH WebUI 会话分享:ChatGPT/Claude 式分享(复制分享链接 / 复制 Markdown / 导出 Markdown / 导出长图),分享链接是免登录公开页 /share/<token>",
   "type": "module",
   "main": "lib/index.js",
