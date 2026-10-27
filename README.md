@@ -24,9 +24,11 @@ payload 中每条 assistant 消息另带 `thoughts`(思考全文,单条上限 20
 
 所有错误应答均为纯文本,不回显内部错误。运行时零 npm 依赖(仅 `node:` 内置模块)。
 
-## 公网托管
+## 公网托管与中继
 
-VPS(windgraham.art)上的 nginx 专用端点 `/etc/nginx/dsh-share.conf` 只暴露 `/share/<token>`(仅 GET/HEAD),经 frp 隧道 `asusgraham-dsh-web`(VPS 13006 → 本机 3080)回源到 DSH 的公开页路由。因此分享链接的公网形态是 `https://windgraham.art/share/<token>`。patch 配置里的 `publicOrigin` 让「复制分享链接」直接复制这个公网地址。
+任意插件用户(0.2.1+)生成分享链接时,浏览器会把快照 HTML 直接上传到 `publicOrigin` 指向的**公开中继**(`POST {publicOrigin}/share-upload`,CORS 放开),链接由中继直接提供——朋友无需公网入口、无需 frp,复制链接即可打开。中继不可达时自动回退本机快照(旧行为)。
+
+参考实现(零依赖 node:http,systemd + nginx):`POST /share-upload` 生成 token 存盘(5MB 上限、每 IP 限流、必须是含 `<html>` 的文档);`GET /share/<token>` 沙箱 CSP 提供页面;未命中可回退属主隧道兼容旧链接。仓库默认 `publicOrigin: 'https://windgraham.art'`,部署自己的中继后改 patch 配置即可。
 
 ## 安装
 
